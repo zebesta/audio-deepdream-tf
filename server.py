@@ -45,7 +45,7 @@ def test():
     print("Calling the function from test")
     # data = deepdream_func(layer,channel,path_to_audio,iterations,octaves)
     print("after the function call from test")
-    print(data['test'])
+    # print(data['test'])
     # print(data['dream_spectrogram'])
 
     return send_file("out.png")
@@ -81,7 +81,11 @@ def upload_file(imageid):
         return send_file("out.png")
     return
 
-
+# layer = 'mixed4d_3x3_bottleneck_pre_relu'
+# channel = 139 # picking some feature channel to visualize
+# path_to_audio = './audio/helix_drum_track.wav'
+# iterations = 1
+# octaves = 8
 @app.route('/audio', methods=['POST', 'GET'])
 @cross_origin()
 def upload_audio():
@@ -95,6 +99,7 @@ def upload_audio():
             return redirect(request.url)
         file = request.files['file']
         type = request.form['type']
+
         print(type)
         # if user does not select file, browser also
         # submit a empty part without filename
@@ -106,7 +111,30 @@ def upload_audio():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             filelocation = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             print(filelocation)
-            return 'upload complete'
+
+
+            #get variables from the user's form
+            layer = request.form['layer']
+            channel = int(request.form['channel'])
+            # path_to_audio = request.form['path_to_audio']
+            iterations = int(request.form['iterations'])
+            octaves = int(request.form['octaves'])
+            path_to_audio = "./audio/"+str(filename)
+            print("1")
+            print(filename)
+            print("2")
+            print(path_to_audio)
+            print("3")
+
+            print("The forms data:")
+            print(layer, channel, path_to_audio, iterations, octaves)
+            #run the function
+            deepdream_func(layer,channel,path_to_audio,iterations,octaves)
+
+            #return the results
+            return send_file("out.png")
+
+            # return 'upload complete'
     elif request.method == 'GET':
         return send_from_directory("uploads", "the_books.mp3")
     return
