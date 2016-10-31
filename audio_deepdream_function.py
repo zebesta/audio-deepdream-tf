@@ -5,6 +5,8 @@ import numpy as np
 from functools import partial
 import tensorflow as tf
 import librosa
+# from scipy import misc
+import scipy.misc
 
 # layer = 'mixed4d_3x3_bottleneck_pre_relu'
 # channel = 139 # picking some feature channel to visualize
@@ -159,7 +161,12 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 	librosa.output.write_wav(os.path.join(audio_filename_new), output, sr)
 
 	print("Holy shit I'm about to return!!")
-	return {'og_specrogram_img':og_spectrogram_img, 'og_spectrogram':og_spectrogram ,'dream_spec_img':dream_spec_img, 'dream_spectrogram':dream_spectrogram, 'test':"TEST" }
+	# dream_spectrogram.savefig('images/out.png')
+	scipy.misc.imsave('out.png', dream_spec_img)
+	return_object = {'og_specrogram_img':og_spectrogram_img, 'og_spectrogram':og_spectrogram ,'dream_spec_img':dream_spec_img, 'dream_spectrogram':dream_spectrogram, 'test':"TEST" }
+	# return {'og_specrogram_img':og_spectrogram_img, 'og_spectrogram':og_spectrogram ,'dream_spec_img':dream_spec_img, 'dream_spectrogram':dream_spectrogram, 'test':"TEST" }
+	print(return_object)
+	return return_object
 	# return og_spectrogram_img, og_spectrogram, dream_spec_img, dream_spectrogram
 # print("Calling the function")
 # deepdream_func(layer,channel,path_to_audio,iterations,octaves)

@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, request, url_for, jsonify, redirect, send_from_directory
+from flask import Flask, flash, request, url_for, jsonify, redirect, send_from_directory, send_file
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 from audio_deepdream_function import deepdream_func
@@ -8,8 +8,8 @@ app = Flask(__name__)
 app.secret_key = 'dev'
 
 #set up the uploads folder
-UPLOAD_FOLDER = './uploads'
-ALLOWED_EXTENSIONS = set(['mp3', 'pdf'])
+UPLOAD_FOLDER = './audio'
+ALLOWED_EXTENSIONS = set(['mp3', 'wav'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
@@ -39,17 +39,21 @@ def test():
     layer = 'mixed4d_3x3_bottleneck_pre_relu'
     channel = 139 # picking some feature channel to visualize
     path_to_audio = './audio/helix_drum_track.wav'
-    iterations = 1
+    iterations = 20
     octaves = 8
 
     print("Calling the function from test")
-    data = deepdream_func(layer,channel,path_to_audio,iterations,octaves)
+    # data = deepdream_func(layer,channel,path_to_audio,iterations,octaves)
     print("after the function call from test")
     print(data['test'])
+    # print(data['dream_spectrogram'])
 
-    return data['test']
+    return send_file("out.png")
+    # return data['test']
     # data = {"id": 7, "title": "OMG TEST COMPLETE"}
     # return jsonify(data)
+    # return send_file("out.png")
+
 
 
 @app.route('/image/<imageid>', methods=['POST', 'GET'])
@@ -62,7 +66,6 @@ def upload_file(imageid):
             flash('No file part')
             return redirect(request.url)
         file = request.files['file']
-        print(request.form['type'])
         # if user does not select file, browser also
         # submit a empty part without filename
         if file.filename == '':
@@ -75,7 +78,7 @@ def upload_file(imageid):
             print(filelocation)
             return 'upload complete'
     elif request.method == 'GET':
-        return send_from_directory("images", "3M_bikes.jpg")
+        return send_file("out.png")
     return
 
 
