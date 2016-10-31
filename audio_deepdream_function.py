@@ -39,7 +39,7 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 		f = BytesIO()
 		PIL.Image.fromarray(a).save(f, fmt)
 		display(Image(data=f.getvalue()))
-		
+
 	def visstd(a, s=0.1):
 		'''Normalize the image range for visualization'''
 		return (a-a.mean())/max(a.std(), 1e-4)*s + 0.5
@@ -69,7 +69,7 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 
 	def calc_grad_tiled(img, t_grad, tile_size=512):
 		'''Compute the value of tensor t_grad over the image in a tiled way.
-		Random shifts are applied to the image to blur tile boundaries over 
+		Random shifts are applied to the image to blur tile boundaries over
 		multiple iterations.'''
 		sz = tile_size
 		h, w = img.shape[:2]
@@ -101,7 +101,7 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 			hi = img-resize(lo, hw)
 			img = lo
 			octaves.append(hi)
-		
+
 		# generate details octave by octave
 		for octave in range(octave_n):
 			if octave>0:
@@ -158,6 +158,9 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 	output = librosa.core.istft(deepdream_out, hop_length=hop, win_length=nfft, center=True)
 	librosa.output.write_wav(os.path.join(audio_filename_new), output, sr)
 
-	return og_spectrogram_img, og_spectrogram, dream_spec_img, dream_spectrogram
+	print("Holy shit I'm about to return!!")
 
+	return og_spectrogram_img, og_spectrogram, dream_spec_img, dream_spectrogram
+print("Calling the function")
 deepdream_func(layer,channel,path_to_audio,iterations,octaves)
+print("after the function call")
