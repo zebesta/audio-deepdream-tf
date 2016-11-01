@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <label for="file">File to process:</label>
+      <form class="form-group" enctype="multipart/form-data" action="http://localhost:5000/audio" method=post>
+      File to process: <input name="file" type="file" id=file class="form-control">
+
+        <label for="layer">Layer</label>
+        <select type="text" class="form-control" name="layer" id=layer>
+           {% for layer in layers %}
+           <option>{{ layer }}</option>
+           {% endfor %}
+         </select>
+
+         <label for="channel">Channel</label><br>
+         <input type="text" name="channel" id="channel" value=139><br>
+         <label for="iterations">Iterations</label><br>
+         <input type="text" name="iterations" id="iterations" value=1><br>
+         <label for="octaves">Octaves</label><br>
+         <input type="text" name="octaves" id="octaves" value=1><br>
+         <br>
+        <input type="submit" value="Send File" class="form-control">
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
