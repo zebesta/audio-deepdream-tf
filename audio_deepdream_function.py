@@ -141,7 +141,15 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 
 	og_spectrogram_img = img/255.0
 	og_spectrogram = librosa.display.specshow(data=np.log(np.abs(y_stft_mag1)), sr=sr, x_axis='time', y_axis='log')
-	dream_spec_img = render_deepdream(T(layer)[:,:,:,channel], img, iter_n=iterations, octave_n=octaves)
+	print("Attempting to check T layer with channel: ", channel)
+	try:
+		dream_spec_img = render_deepdream(T(layer)[:,:,:,channel], img, iter_n=iterations, octave_n=octaves)
+	except(ValueError):
+		print("You're fucked!")
+		return -1
+
+
+	# dream_spec_img = render_deepdream(T(layer)[:,:,:,channel], img, iter_n=iterations, octave_n=octaves)
 
 
 	# undo processing to bring the image back from 0-255 to original scale

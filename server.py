@@ -116,14 +116,14 @@ def upload_audio():
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
-            return redirect(request.url)
+            return redirect(url_for('home'))
         file = request.files['file']
 
         # if user does not select file, browser also
         # submit a empty part without filename
         if file.filename == '':
             flash('No selected file')
-            return redirect(request.url)
+            return redirect(url_for('home'))
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -138,19 +138,19 @@ def upload_audio():
             iterations = int(request.form['iterations'])
             octaves = int(request.form['octaves'])
             path_to_audio = "./audio/"+str(filename)
-            print("1")
-            print(filename)
-            print("2")
-            print(path_to_audio)
-            print("3")
 
             print("The forms data:")
             print(layer, channel, path_to_audio, iterations, octaves)
             #run the function
-            deepdream_func(layer,channel,path_to_audio,iterations,octaves)
-
-            #return the results
-            return send_file("out.png")
+            return_object = deepdream_func(layer,channel,path_to_audio,iterations,octaves)
+            if(return_object == -1):
+                #return error message
+                print("Showing error flash?!?")
+                flash('Please select a channel that is in range for this layer')
+                return redirect(url_for('home'))
+            else:
+                #return image
+                return send_file("out.png")
 
             # return 'upload complete'
     elif request.method == 'GET':
