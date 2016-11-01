@@ -24,7 +24,9 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/")
 def home():
-    return render_template('form.html')
+    layers = ["mixed4d_3x3_bottleneck_pre_relu", "Nathan", "Jon"]
+    return render_template('form.html', layers=layers)
+
 
 @app.route("/post/", methods=['POST'])
 @cross_origin()
