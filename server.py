@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, request, url_for, jsonify, redirect, send_from_directory, send_file
+from flask import Flask, flash, request, url_for, jsonify, redirect, send_from_directory, send_file, render_template
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 from audio_deepdream_function import deepdream_func
@@ -18,9 +18,13 @@ def allowed_file(filename):
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+# @app.route("/")
+# def hello():
+#     return "Hello World!"
+
 @app.route("/")
-def hello():
-    return "Hello World!"
+def home():
+    return render_template('form.html')
 
 @app.route("/post/", methods=['POST'])
 @cross_origin()
@@ -90,17 +94,12 @@ def upload_file(imageid):
 @cross_origin()
 def upload_audio():
     if request.method == 'POST':
-        # check if the post request has the file part and the type part
+        # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
-        if 'type' not in request.form:
-            flash('No type part')
-            return redirect(request.url)
         file = request.files['file']
-        type = request.form['type']
 
-        print(type)
         # if user does not select file, browser also
         # submit a empty part without filename
         if file.filename == '':

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>Audio Deep Dreaming</title>
+
+        <!-- CSS -->
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <!-- Blog -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="shortcut icon" href="http://www.iconj.com/ico/v/j/vjw01je1oi.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://www.iconj.com/ico/v/j/vjw01je1oi.ico">
+        <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+
+
+        <!-- Combodate -->
+        <script src="js/combodate.js"></script>
+        <!-- jQuery -->
+        <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+        <style>
+
+    .navbar {
+      margin-bottom: 0;
+      background-color: #3185EA;
+      z-index: 9999;
+      border: 0;
+      font-size: 12px !important;
+      line-height: 1.42857143 !important;
+      letter-spacing: 1px;
+      border-radius: 1px;
+      font-family: Arial, sans-serif;
+  }
+  .navbar li a, .navbar .navbar-brand {
+      color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+      color: #A7D8FF !important;
+      background-color: #000 !important;
+  }
+  .navbar-default .navbar-toggle {
+      border-color: transparent;
+      color: #fff !important;
+  }
+
+    </style>
+    </head>
+    <body>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+
+    </body>
+
+</html>
