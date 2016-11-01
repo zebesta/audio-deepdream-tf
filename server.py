@@ -86,13 +86,13 @@ def upload_file(imageid):
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
-            flash('No file part')
+            flash('No file part', 'danger')
             return redirect(request.url)
         file = request.files['file']
         # if user does not select file, browser also
         # submit a empty part without filename
         if file.filename == '':
-            flash('No selected file')
+            flash('No selected file', 'danger')
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
@@ -115,14 +115,14 @@ def upload_audio():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
-            flash('No file part')
+            flash('No file part', 'danger')
             return redirect(url_for('home'))
         file = request.files['file']
 
         # if user does not select file, browser also
         # submit a empty part without filename
         if file.filename == '':
-            flash('No selected file')
+            flash('No selected file', 'danger')
             return redirect(url_for('home'))
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
@@ -146,7 +146,7 @@ def upload_audio():
             if(return_object == -1):
                 #return error message
                 print("Showing error flash?!?")
-                flash('Please select a channel that is in range for this layer')
+                flash('Please select a channel that is in range for this layer', 'danger')
                 return redirect(url_for('home'))
             else:
                 #return image
