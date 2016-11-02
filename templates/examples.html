@@ -3,6 +3,24 @@
 {% block content %}
 
 <h1>Examples!</h1>
+{% for example in examples %}
+    <li class="list-group-item">
+      <h2>
+        {{ example.origAudioLink }}:</a>
+        <span class="note">
+          {{ example.origSpectroLink }}
+        </span>
+      </h2>
+      {{ example.dreamedAudioLink }}
+      <br>
+      {{ example.dreamedSpectroLink }}
+    </li>
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      <span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span>
+      <strong>Ahh</strong> Nothin here!
+    </div>
+  {% endfor %}
 
 
 

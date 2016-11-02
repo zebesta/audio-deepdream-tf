@@ -3,6 +3,7 @@ from flask import Flask, flash, request, url_for, jsonify, redirect, send_from_d
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 from audio_deepdream_function import deepdream_func
+from example import Example
 
 app = Flask(__name__)
 app.secret_key = 'dev'
@@ -18,9 +19,7 @@ def allowed_file(filename):
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-# @app.route("/")
-# def hello():
-#     return "Hello World!"
+
 
 @app.route("/")
 def home():
@@ -32,7 +31,12 @@ def home():
 
 @app.route("/exmaples")
 def examples():
-    return render_template('examples.html')
+    # define exmaples and send them in to the exmaples html template
+    ex1 = Example("first link", "second link", "third link", "fourth link")
+    ex2 = Example("5th link", "6th link", "7th link", "8th link")
+    examples = [ex1, ex2]
+    return render_template('examples.html', examples=examples)
+
 
 
 @app.route("/post/", methods=['POST'])

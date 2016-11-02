@@ -44,6 +44,9 @@
             border-color: transparent;
             color: #000000 !important;
         }
+        .block-content {
+          padding-top: 2em;
+        }
         </style>
     </head>
 
@@ -82,7 +85,7 @@
         {% endif %}
         {% endwith %}
 
-        <div class="container">
+        <div class="container block-content">
             {% block content %}{% endblock %}
         </div>
 

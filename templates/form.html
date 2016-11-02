@@ -7,17 +7,17 @@ function myFunction() {
     var div = document.createElement('div');
 
     div.className = 'row';
-    div.innerHTML = '<p>You clicked sumbit!</p>'
+    div.innerHTML = '<p>Spinning up the hamster wheel, this could take a minute!</p>'
     document.getElementById('formcontent').appendChild(div);
 }
 </script>
 
-<div class="container">
+<div class="container" padding-top="10em">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3" id="formcontent">
       <label for="file">File to process:</label>
       <form class="form-group" enctype="multipart/form-data" action="http://localhost:5000/audio" method=post onsubmit="myFunction()">
-      File to process: <input name="file" type="file" id=file class="form-control">
+        <input name="file" type="file" id=file class="form-control">
 
         <label for="layer">Layer</label>
         <select type="text" class="form-control" name="layer" id=layer>
@@ -27,7 +27,7 @@ function myFunction() {
          </select>
 
          <label for="channel">Channel</label><br>
-         <input type="text" name="channel" id="channel" value=139><br>
+         <input type="text" name="channel" id="channel" value=1><br>
          <label for="iterations">Iterations</label><br>
          <input type="text" name="iterations" id="iterations" value=1><br>
          <label for="octaves">Octaves</label><br>
@@ -35,7 +35,7 @@ function myFunction() {
          <br>
         <input type="submit" value="Send File" class="form-control">
       </form>
-      <br><p id="submittext"></p>
+      <br>
     </div>
   </div>
 </div>
