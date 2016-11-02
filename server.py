@@ -32,8 +32,9 @@ def home():
 @app.route("/exmaples")
 def examples():
     # define exmaples and send them in to the exmaples html template
-    ex1 = Example("first link", "second link", "third link", "fourth link")
-    ex2 = Example("5th link", "6th link", "7th link", "8th link")
+    # examples  =  origAudioLink, origSpectroLink, dreamedAudioLink, dreamedSpectroLink
+    ex1 = Example("/audio/helix_drum_track.wav", "/images/Slurm-1-.jpg", "/audio/thief_44100.wav", "/images/Unknown-33.jpg")
+    ex2 = Example("/audio/helix_drum_track.wav", "/images/Slurm-1-.jpg", "/audio/thief_44100.wav", "/images/Unknown-33.jpg")
     examples = [ex1, ex2]
     return render_template('examples.html', examples=examples)
 
@@ -71,7 +72,13 @@ def test():
     # return jsonify(data)
     # return send_file("out.png")
 
+@app.route('/images/<path:path>')
+def send_image(path):
+    return send_from_directory('images', path)
 
+@app.route('/audio/<path:path>')
+def send_js(path):
+    return send_from_directory('audio', path)
 
 @app.route('/image/<imageid>', methods=['POST', 'GET'])
 @cross_origin()
@@ -103,7 +110,7 @@ def upload_file(imageid):
 # path_to_audio = './audio/helix_drum_track.wav'
 # iterations = 1
 # octaves = 8
-@app.route('/audio', methods=['POST', 'GET'])
+@app.route('/calculate', methods=['POST', 'GET'])
 @cross_origin()
 def upload_audio():
     if request.method == 'POST':

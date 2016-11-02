@@ -113,6 +113,7 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 			for i in range(iter_n):
 				g = calc_grad_tiled(img, t_grad)
 				img += g*(step / (np.abs(g).mean()+1e-7))
+				print("1 iteration")
 				#print('.',end = ' ')
 			#clear_output()
 			#showarray(img/255.0)
