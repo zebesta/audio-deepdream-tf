@@ -20,6 +20,9 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 	audio_path = os.path.dirname(path_to_audio)
 	audio_filename = os.path.basename(path_to_audio)
 	audio_filename_new = os.path.join(audio_path,'dreamed_on_'+audio_filename)
+	print("Audio file names")
+	print(audio_filename)
+	print(audio_filename_new)
 
 	model_fn = 'tensorflow_inception_graph.pb'
 
@@ -113,7 +116,7 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 			for i in range(iter_n):
 				g = calc_grad_tiled(img, t_grad)
 				img += g*(step / (np.abs(g).mean()+1e-7))
-				print("1 iteration")
+				print("{} iteration in {} octaves".format(i,octave))
 				#print('.',end = ' ')
 			#clear_output()
 			#showarray(img/255.0)
@@ -166,19 +169,14 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 	deepdream_out_orig = deepdream_out.copy()
 	deepdream_out = deepdream_out * y_stft_ang
 	# add back in original phase
-	_, orig_stft_ang = librosa.magphase(y_stft)
-	deepdream_out = deepdream_out_orig * orig_stft_ang
+	deepdream_out = deepdream_out_orig * y_stft_ang
 	output = librosa.core.istft(deepdream_out, hop_length=hop, win_length=nfft, center=True)
-	librosa.output.write_wav(os.path.join(audio_filename_new), output, sr)
+	librosa.output.write_wav(audio_filename_new, output, sr)
 
 	print("Holy shit I'm about to return!!")
-	# dream_spectrogram.savefig('images/out.png')
-	scipy.misc.imsave('out.png', dream_spec_img)
-	return_object = {'og_specrogram_img':og_spectrogram_img, 'og_spectrogram':og_spectrogram ,'dream_spec_img':dream_spec_img, 'dream_spectrogram':dream_spectrogram, 'test':"TEST" }
-	# return {'og_specrogram_img':og_spectrogram_img, 'og_spectrogram':og_spectrogram ,'dream_spec_img':dream_spec_img, 'dream_spectrogram':dream_spectrogram, 'test':"TEST" }
-	# print(return_object)
+
+	# Save output image and input image
+	scipy.misc.imsave('images/out.jpg', dream_spec_img)
+	scipy.misc.imsave('images/in.jpg', og_spectrogram_img)
+	return_object = {'audio_filename':audio_filename, 'audio_filename_new':audio_filename_new, 'og_spectrogram_img':og_spectrogram_img, 'og_spectrogram':og_spectrogram ,'dream_spec_img':dream_spec_img, 'dream_spectrogram':dream_spectrogram}
 	return return_object
-	# return og_spectrogram_img, og_spectrogram, dream_spec_img, dream_spectrogram
-# print("Calling the function")
-# deepdream_func(layer,channel,path_to_audio,iterations,octaves)
-# print("after the function call")

@@ -39,43 +39,12 @@ def examples():
     return render_template('examples.html', examples=examples)
 
 
-
-@app.route("/post/", methods=['POST'])
-@cross_origin()
-def post():
-    print(request.data)
-    # name=request.form[request.data]
-    # email=request.form['youremail']
-    # myDict = {'a': 2, 'b': 3}
-    # print(name)
-    data = {"name": "name", "title": "album.title"}
-    return jsonify(data)
-
-@app.route("/test/", methods=['GET'])
-@cross_origin()
-def test():
-    layer = 'mixed4d_3x3_bottleneck_pre_relu'
-    channel = 139 # picking some feature channel to visualize
-    path_to_audio = './audio/helix_drum_track.wav'
-    iterations = 20
-    octaves = 8
-
-    print("Calling the function from test")
-    # data = deepdream_func(layer,channel,path_to_audio,iterations,octaves)
-    print("after the function call from test")
-    # print(data['test'])
-    # print(data['dream_spectrogram'])
-
-    return send_file("out.png")
-    # return data['test']
-    # data = {"id": 7, "title": "OMG TEST COMPLETE"}
-    # return jsonify(data)
-    # return send_file("out.png")
-
+# Retrieves images
 @app.route('/images/<path:path>')
 def send_image(path):
     return send_from_directory('images', path)
 
+#retrieves audio files
 @app.route('/audio/<path:path>')
 def send_js(path):
     return send_from_directory('audio', path)
@@ -150,8 +119,10 @@ def upload_audio():
                 flash('Please select a channel that is in range for this layer', 'danger')
                 return redirect(url_for('home'))
             else:
+                print(return_object)
                 #return image
-                return send_file("out.png")
+                ex = Example(os.path.join('/audio',return_object['audio_filename']), "/images/in.jpg", return_object['audio_filename_new'], "/images/out.jpg")
+                return render_template('results.html', example=ex)
 
             # return 'upload complete'
     elif request.method == 'GET':

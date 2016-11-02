@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<h1>Results!</h1>
+{% if example %}
+    <li class="list-group-item">
+      <h2>Originals</h2>
+      <img src="{{ example.origSpectroLink }}" height=400 width=400>
+      <br>
+      <audio controls>
+        <source src="{{ example.origAudioLink }}" type="audio/wav">
+        Your browser does not support the audio tag.
+      </audio>
+
+      <h2>Dreams</h2>
+      <img src="{{ example.dreamedSpectroLink }}" height=400 width=400>
+      <br>
+      <audio controls>
+        <source src="{{ example.dreamedAudioLink }}" type="audio/wav">
+        Your browser does not support the audio tag.
+      </audio>
+
+    </li>
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      <span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span>
+      <strong>Ahh</strong> Nothin here!
+    </div>
+  {% endif %}
+
+
+
+
+{% endblock %}
