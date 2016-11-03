@@ -15,14 +15,11 @@ import scipy.misc
 # iterations = 1
 # octaves = 8
 
-def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
+def deepdream_func(layer,channel,path_to_audio,iterations,octaves,audio_name):
 
 	audio_path = os.path.dirname(path_to_audio)
 	audio_filename = os.path.basename(path_to_audio)
 	audio_filename_new = os.path.join(audio_path,'dreamed_on_'+audio_filename)
-	print("Audio file names")
-	print(audio_filename)
-	print(audio_filename_new)
 
 	model_fn = 'tensorflow_inception_graph.pb'
 
@@ -173,10 +170,13 @@ def deepdream_func(layer,channel,path_to_audio,iterations,octaves):
 	output = librosa.core.istft(deepdream_out, hop_length=hop, win_length=nfft, center=True)
 	librosa.output.write_wav(audio_filename_new, output, sr)
 
-	print("Holy shit I'm about to return!!")
 
 	# Save output image and input image
-	scipy.misc.imsave('images/out.jpg', dream_spec_img)
-	scipy.misc.imsave('images/in.jpg', og_spectrogram_img)
+	output_image = "images/out_"+audio_name+".jpg"
+	input_image = "images/in"+audio_name+".jpg"
+	scipy.misc.imsave(output_image, dream_spec_img)
+	scipy.misc.imsave(input_image, dream_spec_img)
+	# scipy.misc.imsave('images/out.jpg', dream_spec_img)
+	# scipy.misc.imsave('images/in.jpg', og_spectrogram_img)
 	return_object = {'audio_filename':audio_filename, 'audio_filename_new':audio_filename_new, 'og_spectrogram_img':og_spectrogram_img, 'og_spectrogram':og_spectrogram ,'dream_spec_img':dream_spec_img, 'dream_spectrogram':dream_spectrogram}
 	return return_object

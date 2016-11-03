@@ -10,7 +10,8 @@ app.secret_key = 'dev'
 
 #set up the uploads folder
 UPLOAD_FOLDER = './audio'
-ALLOWED_EXTENSIONS = set(['mp3', 'wav'])
+# Check if the audio extension is an allowed extension
+ALLOWED_EXTENSIONS = set(['mp3', 'wav', 'ogg'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
@@ -108,11 +109,14 @@ def upload_audio():
             iterations = int(request.form['iterations'])
             octaves = int(request.form['octaves'])
             path_to_audio = "./audio/"+str(filename)
+            audio_name = filename.split('.')[0]
+            print("Audio name is: ")
+            print(audio_name)
 
             print("The forms data:")
             print(layer, channel, path_to_audio, iterations, octaves)
             #run the function
-            return_object = deepdream_func(layer,channel,path_to_audio,iterations,octaves)
+            return_object = deepdream_func(layer,channel,path_to_audio,iterations,octaves,audio_name)
             if(return_object == -1):
                 #return error message
                 print("Showing error flash?!?")
